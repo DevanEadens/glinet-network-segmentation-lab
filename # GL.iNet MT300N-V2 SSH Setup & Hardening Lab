@@ -1,0 +1,108 @@
+This project documents the process of configuring, troubleshooting, and securing SSH access on a GL.iNet GL-MT300N-V2 (OpenWRT-based) router using a Windows OpenSSH client.
+
+It includes real-world debugging of SSH authentication issues, key setup, and Dropbear configuration.
+
+---
+
+## Project Goal
+
+The goal of this lab was to:
+- Establish SSH access to a GL.iNet router from Windows
+- Resolve authentication and compatibility issues
+- Configure SSH key-based authentication
+- Understand Dropbear (OpenWRT SSH server) behavior
+- Practice real-world network troubleshooting and hardening
+
+---
+
+## Environment
+
+- Router: GL.iNet GL-MT300N-V2 (OpenWRT / Dropbear)
+- Client OS: Windows 10/11
+- SSH Client: OpenSSH (Windows built-in)
+- Key Type: ed25519
+- Network: Local LAN (192.168.8.1)
+
+---
+
+## Key Steps Completed
+
+### 1. Initial SSH Access
+Connected to router via:
+```bash
+ssh root@192.168.8.1
+
+Encountered SSH host key compatibility issue requiring legacy support for ssh-rsa.
+
+2. Host Key Compatibility Fix
+Resolved using:
+ssh -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa root@192.168.8.1
+
+3. SSH Key Generation (Windows)
+Generated ed25519 key pair:
+
+ssh-keygen -t ed25519
+
+Public key location:
+
+C:\Users\<User>\.ssh\id_ed25519.pub
+
+4. Manual Key Deployment to Router
+Created SSH directory and authorized keys file:
+
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+cat > ~/.ssh/authorized_keys
+
+Pasted public key and saved with:
+
+CTRL + D
+
+Set permissions:
+
+chmod 600 ~/.ssh/authorized_keys
+
+5. Dropbear Configuration Review
+Verified SSH settings:
+
+cat /etc/config/dropbear
+
+Key settings:
+
+Password authentication enabled
+Root login enabled
+Port: 22
+Results
+SSH access to router successfully established
+Password authentication works reliably
+SSH key setup completed (manual deployment verified)
+System stabilized for remote administration
+Key Challenges Solved
+SSH host key algorithm mismatch (ssh-rsa)
+Windows SSH key path confusion
+Missing or incorrectly written authorized_keys
+vi editor paste/save issues on embedded system
+Dropbear/OpenWRT authentication behavior understanding
+What I Learned
+How OpenWRT handles SSH via Dropbear
+How modern OpenSSH enforces stricter crypto defaults
+Manual SSH key deployment in constrained environments
+Real-world debugging of authentication vs connection issues
+Importance of permission structure in Linux SSH security
+Future Improvements
+Disable password authentication (key-only login)
+Restrict SSH access to LAN only
+Add backup SSH key method
+Harden firewall rules for management interface
+Document recovery / lockout prevention strategy
+Notes
+This setup prioritizes access stability and learning over full production hardening. Password authentication remains enabled for safety and recovery access.
+
+Status
+SSH access working
+Authentication functioning
+Key setup completed
+Router reachable via CLI
+Author
+Homelab / Cybersecurity learning project focused on real-world network access and system administration.
