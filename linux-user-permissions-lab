@@ -1,0 +1,121 @@
+# Linux User and File Permission Management Lab
+
+## Overview
+
+This project demonstrates fundamental Linux system administration tasks related to user management, group management, file ownership, and file permissions. These concepts are essential for system administration, help desk, and cybersecurity roles.
+
+## Objectives
+
+- Create a new Linux user
+- Create a security group
+- Add a user to a group
+- Create directories and files
+- View file permissions
+- Modify file permissions using chmod
+- Change file ownership using chown
+- Apply the Principle of Least Privilege
+
+## Environment
+
+- Oracle VirtualBox
+- Ubuntu Linux
+
+## Commands Used
+
+### Create a User
+
+```bash
+sudo adduser labuser
+```
+
+Creates a new local user account.
+
+### Create a Group
+
+```bash
+sudo groupadd securityteam
+```
+
+Creates a new security group.
+
+### Add User to Group
+
+```bash
+sudo usermod -aG securityteam labuser
+groups labuser
+```
+
+Adds the user to the security group and verifies membership.
+
+### Create a Directory
+
+```bash
+mkdir ~/security_lab
+```
+
+Creates a workspace for the lab.
+
+### Create a File
+
+```bash
+touch ~/security_lab/confidential.txt
+```
+
+Creates a sample file.
+
+### View Permissions
+
+```bash
+ls -l ~/security_lab
+```
+
+Displays file ownership and permissions.
+
+Example output:
+
+```
+-rw-r--r--
+```
+
+### Restrict File Permissions
+
+```bash
+chmod 600 ~/security_lab/confidential.txt
+```
+
+Changes permissions so only the file owner can read and write the file.
+
+New permissions:
+
+```
+-rw-------
+```
+
+### Change File Ownership
+
+```bash
+sudo chown labuser:securityteam ~/security_lab/confidential.txt
+```
+
+Transfers ownership of the file to the new user and group.
+
+## Security Concepts Demonstrated
+
+- User and group management
+- Linux file permissions
+- File ownership
+- Access control
+- Principle of Least Privilege
+- Basic Identity and Access Management (IAM)
+
+## Skills Practiced
+
+- Linux administration
+- Terminal navigation
+- User management
+- Permission management
+- Security hardening fundamentals
+
+## Lessons Learned
+
+Managing users, groups, permissions, and ownership is a fundamental responsibility of Linux administrators. Restricting access using least privilege helps protect sensitive data and reduces unnecessary access across a system.
